@@ -19,11 +19,11 @@ public class VehiclesRepository {
         return vehiclesRepositoryStorage.get(id);
     }
 
-    public void updateVehicle(Vehicle vehicle){
-        vehiclesRepositoryStorage.replace(vehicle.getId(), vehicle);
+    public Vehicle updateVehicle(Vehicle vehicle){
+        return vehiclesRepositoryStorage.replace(vehicle.getId(), vehicle);
     }
 
-    public Vehicle deleteVehicle(String id){
+    public Vehicle removeVehicle(String id){
         return vehiclesRepositoryStorage.remove(id);
     }
 

@@ -4,15 +4,17 @@ import java.util.List;
 
 import alejandro.course.projects.microservicesproject.objects.Vehicle;
 import alejandro.course.projects.microservicesproject.repositories.VehiclesRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class VehiclesService {
 
-    @Autowired
     VehiclesRepository repository;
+
+    public VehiclesService(VehiclesRepository repository) {
+        this.repository = repository;
+    }
 
     public void addVehicles(List<Vehicle> vehicles){
         repository.addVehicles(vehicles);
@@ -22,11 +24,16 @@ public class VehiclesService {
         return repository.getVehicle(id);
     }
 
-    public void updateVehicle(Vehicle vehicle){
-        repository.updateVehicle(vehicle);
+    public Vehicle updateVehicle(Vehicle vehicle){
+        Vehicle oldVehicle = repository.updateVehicle(vehicle);
+
+        if (oldVehicle==null)
+            return null;
+
+        return vehicle;
     }
 
-    public void deleteVehicle(String id){
-        repository.deleteVehicle(id);
+    public Vehicle removeVehicle(String id){
+        return repository.removeVehicle(id);
     }
 }

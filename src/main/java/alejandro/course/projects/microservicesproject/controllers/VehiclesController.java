@@ -5,8 +5,11 @@ import java.util.stream.Collectors;
 
 import alejandro.course.projects.microservicesproject.controllers.dto.VehicleDto;
 import alejandro.course.projects.microservicesproject.mappers.VehicleMapper;
+import alejandro.course.projects.microservicesproject.objects.Vehicle;
 import alejandro.course.projects.microservicesproject.services.VehiclesService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,27 +28,44 @@ public class VehiclesController {
     VehiclesService service;
 
     @PostMapping(value = "/vehicles", consumes = "application/json")
-    public void addVehicles(@RequestBody List<VehicleDto> vehicles){
+    public ResponseEntity<HttpStatus> addVehicles(@RequestBody List<VehicleDto> vehicles){
         service.addVehicles(
                 vehicles.stream()
                         .map(vehicleDto -> mapper.dtoToObject(vehicleDto))
                         .collect(Collectors.toList())
         );
+
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping(value = "/vehicles/{id}", produces = "application/json")
-    public VehicleDto getVehicle(@PathVariable String id){
-        return mapper.objectToDto(service.getVehicle(id));
+    public ResponseEntity<VehicleDto> getVehicle(@PathVariable String id){
+        VehicleDto vehicleDto = mapper.objectToDto(service.getVehicle(id));
+
+        if (vehicleDto==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(vehicleDto, HttpStatus.FOUND);
     }
 
     @PutMapping(value = "/vehicles", consumes = "application/json")
-    public void updateVehicle(@RequestBody VehicleDto vehicle){
-        service.updateVehicle(mapper.dtoToObject(vehicle));
+    public ResponseEntity<HttpStatus> updateVehicle(@RequestBody VehicleDto vehicle){
+        Vehicle updatedVehicle = service.updateVehicle(mapper.dtoToObject(vehicle));
+
+        if (updatedVehicle==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
     @DeleteMapping(value = "/vehicles/{id}")
-    public void deleteVehicle(@PathVariable String id){
-        service.deleteVehicle(id);
+    public ResponseEntity<HttpStatus> removeVehicle(@PathVariable String id){
+        Vehicle vehicleRemoved = service.removeVehicle(id);
+
+        if (vehicleRemoved==null)
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 
 }

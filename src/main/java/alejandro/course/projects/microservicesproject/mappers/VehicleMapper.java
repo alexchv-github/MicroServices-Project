@@ -20,6 +20,9 @@ public class VehicleMapper {
     }
 
     public VehicleDto objectToDto(Vehicle vehicle){
+        if (vehicle==null)
+            return null;
+
         VehicleDto vehicleDto = new VehicleDto();
 
         vehicleDto.setId(vehicle.getId());

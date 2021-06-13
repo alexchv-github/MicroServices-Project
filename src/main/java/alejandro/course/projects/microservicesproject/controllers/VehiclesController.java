@@ -7,7 +7,6 @@ import alejandro.course.projects.microservicesproject.controllers.dto.VehicleDto
 import alejandro.course.projects.microservicesproject.mappers.VehicleMapper;
 import alejandro.course.projects.microservicesproject.objects.Vehicle;
 import alejandro.course.projects.microservicesproject.services.VehiclesService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,11 +20,15 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class VehiclesController {
 
-    @Autowired
     VehicleMapper mapper;
 
-    @Autowired
     VehiclesService service;
+
+    public VehiclesController(VehicleMapper mapper,
+            VehiclesService service) {
+        this.mapper = mapper;
+        this.service = service;
+    }
 
     @PostMapping(value = "/vehicles", consumes = "application/json")
     public ResponseEntity<HttpStatus> addVehicles(@RequestBody List<VehicleDto> vehicles){

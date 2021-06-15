@@ -1,5 +1,8 @@
 package alejandro.course.projects.microservicesproject.mappers;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import alejandro.course.projects.microservicesproject.controllers.dto.VehicleDto;
 import alejandro.course.projects.microservicesproject.objects.Vehicle;
 import org.springframework.stereotype.Component;
@@ -17,6 +20,12 @@ public class VehicleMapper {
         vehicle.setColour(vehicleDto.getColour());
 
         return vehicle;
+    }
+
+    public List<Vehicle> dtoToObject(List<VehicleDto> vehicleDtoList){
+        return vehicleDtoList.stream()
+                .map(this::dtoToObject)
+                .collect(Collectors.toList());
     }
 
     public VehicleDto objectToDto(Vehicle vehicle){

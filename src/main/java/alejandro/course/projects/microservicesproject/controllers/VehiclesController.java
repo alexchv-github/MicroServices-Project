@@ -1,7 +1,6 @@
 package alejandro.course.projects.microservicesproject.controllers;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import alejandro.course.projects.microservicesproject.controllers.dto.VehicleDto;
 import alejandro.course.projects.microservicesproject.mappers.VehicleMapper;
@@ -32,11 +31,7 @@ public class VehiclesController {
 
     @PostMapping(value = "/vehicles", consumes = "application/json")
     public ResponseEntity<HttpStatus> addVehicles(@RequestBody List<VehicleDto> vehicles){
-        service.addVehicles(
-                vehicles.stream()
-                        .map(vehicleDto -> mapper.dtoToObject(vehicleDto))
-                        .collect(Collectors.toList())
-        );
+        service.addVehicles(mapper.dtoToObject(vehicles));
 
         return new ResponseEntity<>(HttpStatus.CREATED);
     }

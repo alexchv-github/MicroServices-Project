@@ -2,12 +2,17 @@ package alejandro.course.projects.microservicesproject.controllers.dto;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotBlank;
+
 public class VehicleDto {
 
+    @NotBlank
     private String id;
 
+    @NotBlank
     private String plate;
 
+    @NotBlank
     private Date registrationDate;
 
     private String brand;

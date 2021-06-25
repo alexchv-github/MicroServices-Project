@@ -2,6 +2,8 @@ package alejandro.course.projects.microservicesproject.controllers;
 
 import java.util.Date;
 
+import javax.validation.ConstraintViolationException;
+
 import alejandro.course.projects.microservicesproject.exceptions.GeneralExceptionObject;
 import alejandro.course.projects.microservicesproject.exceptions.VehicleNotFoundException;
 import org.springframework.http.HttpStatus;
@@ -26,11 +28,20 @@ public class ExceptionsController extends ResponseEntityExceptionHandler {
     }
 
     @ExceptionHandler(VehicleNotFoundException.class)
-    public ResponseEntity<GeneralExceptionObject> vehicleNotFoundExceptionHandler(Exception ex, WebRequest request){
+    public ResponseEntity<GeneralExceptionObject> vehicleNotFoundExceptionHandler(VehicleNotFoundException ex, WebRequest request){
         logger.error(ex.getMessage(), ex);
 
         GeneralExceptionObject generalExceptionObject = new GeneralExceptionObject(new Date(), ex.getMessage(), request.getDescription(Boolean.FALSE));
 
         return new ResponseEntity<>(generalExceptionObject, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public ResponseEntity<GeneralExceptionObject> constraintViolationExceptionHandler(ConstraintViolationException ex, WebRequest request){
+        logger.error(ex.getMessage(), ex);
+
+        GeneralExceptionObject generalExceptionObject = new GeneralExceptionObject(new Date(), ex.getMessage(), request.getDescription(Boolean.FALSE));
+
+        return new ResponseEntity<>(generalExceptionObject, HttpStatus.BAD_REQUEST);
     }
 }

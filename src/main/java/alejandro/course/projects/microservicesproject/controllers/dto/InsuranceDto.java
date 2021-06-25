@@ -1,14 +1,20 @@
 package alejandro.course.projects.microservicesproject.controllers.dto;
 
 
+import javax.validation.constraints.NotBlank;
+
 public class InsuranceDto {
 
+    @NotBlank
     private String id;
 
+    @NotBlank
     private String vehicleId;
 
+    @NotBlank
     private Boolean coverage;
 
+    @NotBlank
     private Boolean premiumCoverage;
 
     public String getId() {

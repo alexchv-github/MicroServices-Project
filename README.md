@@ -8,7 +8,8 @@ use libraries as lombok, mapstruct...
 
 Technologies used:
 
-Java 11
-Spring-boot
+-Java 11
+
+-Spring-boot 2.5.0
 
   

@@ -12,7 +12,6 @@ public class VehicleDto {
     @NotBlank
     private String plate;
 
-    @NotBlank
     private Date registrationDate;
 
     private String brand;
